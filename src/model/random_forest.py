@@ -1,5 +1,5 @@
-from pandas import read_csv
 from sklearn.ensemble import RandomForestClassifier
+from pandas import read_csv
 from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
 from sklearn.model_selection import train_test_split
 from joblib import dump
@@ -22,6 +22,9 @@ predictions = model.predict(x_test)
 accuracy = accuracy_score(y_test, predictions)
 print(f"Accuracy of model: {accuracy*100:.2f}")
 
+with open('reports/accuracy_rf.txt', 'w') as f:
+    f.write(f"{accuracy*100:.2f}%")
+
 # Get confusion matrix
 print("Generating Confusion Matrix...")
 cm = confusion_matrix(y_test, predictions)
@@ -31,9 +34,9 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm,
 # Plot and save
 disp.plot(cmap='Blues')
 plt.title('Confusion Matrix')
-plt.savefig('reports/confusion_matrix.png')
+plt.savefig('reports/confusion_matrix_rf.png')
 print("Confusion Matrix saved to 'reports/confusion_matrix.png'")
 
 # Save the model to disk so it can be loaded later
-dump(model, 'models/iris_model.pkl')
-print("Model saved to models/iris_model.pkl")
+dump(model, 'models/model_rf.pkl')
+print("Model saved to models/model_rf.pkl")
